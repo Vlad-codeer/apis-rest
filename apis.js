@@ -176,6 +176,39 @@ resultado: akk
 })}).catch(e => {
 res.sendFile(error)})})
 
+router.get('/ip', async (req, res, next) => {
+         quero = req.query.quero
+        var Apikey = req.query.apikey;
+if(!Apikey) return res.json(loghandler.notparam)
+	if(listkey.includes(Apikey)){          
+       fetch(encodeURI(`https://supra-api.herokuapp.com/api/ip?quero=${quero}&apikey=supraz`))
+        .then(response => response.json())
+        .then(data => {
+         var pais = data.pais;
+        var estado = data.estado;
+        var cidade = data.cidade;
+       var latitude = data.latitude; 
+       var longitude = data.longitude;
+       var isp = data.isp;
+       var as = data.as;
+       var ip = data.ip;
+             res.json({
+                 criador : `${creator}`,
+                 pais,
+                 estado,
+                 cidade,
+                 latitude,
+                 longitude,
+                 isp,
+                 as,
+                 ip
+             })
+         })
+          } else {
+res.json(loghandler.invalidKey)
+}        	    	 		
+})
+
  router.get('/download/playv', async(req, res, next) => {
  var cdapikey = req.query.apikey;
  nome = req.query.nome
